@@ -21,7 +21,7 @@ className="bg-surface text-text-primary border-border"
 style={{ color: 'var(--color-text-primary)' }}
 
 // Never — hardcoded hex values
-className="bg-[#F6F7FB] text-[#101828]"
+className="bg-[#F6F7FB] text-text-primary"
 
 // Never — raw Tailwind color classes
 className="bg-purple-500 text-gray-600"
@@ -35,80 +35,80 @@ className="bg-purple-500 text-gray-600"
 @import "tailwindcss";
 
 @theme {
-  /* Font */
-  --font-sans: "Inter", sans-serif;
+	/* Font */
+	--font-sans: "Inter", sans-serif;
 
-  /* Page and surface backgrounds */
-  --color-background: #f6f7fb;
-  --color-surface: #ffffff;
-  --color-surface-secondary: #f9fafb;
-  --color-surface-tertiary: #f2f5f7;
-  --color-surface-muted: #f4f5fb;
+	/* Page and surface backgrounds */
+	--color-background: #f6f7fb;
+	--color-surface: #ffffff;
+	--color-surface-secondary: #f9fafb;
+	--color-surface-tertiary: #f2f5f7;
+	--color-surface-muted: #f4f5fb;
 
-  /* Borders */
-  --color-border: #e7eaf3;
-  --color-border-light: #e5e7eb;
-  --color-border-muted: #dfe1e7;
+	/* Borders */
+	--color-border: #e7eaf3;
+	--color-border-light: #e5e7eb;
+	--color-border-muted: #dfe1e7;
 
-  /* Text */
-  --color-text-primary: #101828;
-  --color-text-secondary: #6a7282;
-  --color-text-muted: #99a1af;
-  --color-text-dark: #364153;
-  --color-text-darker: #36394a;
-  --color-text-darkest: #111827;
-  --color-text-black: #131316;
-  --color-text-slate: #272835;
-  --color-text-slate-medium: #666d80;
+	/* Text */
+	--color-text-primary: #101828;
+	--color-text-secondary: #6a7282;
+	--color-text-muted: #99a1af;
+	--color-text-dark: #364153;
+	--color-text-darker: #36394a;
+	--color-text-darkest: #111827;
+	--color-text-black: #131316;
+	--color-text-slate: #272835;
+	--color-text-slate-medium: #666d80;
 
-  /* Primary accent — purple */
-  --color-accent: #7c5cfc;
-  --color-accent-dark: #5e4cff;
-  --color-accent-light: #f3e8ff;
-  --color-accent-muted: #faf5ff;
-  --color-accent-foreground: #ffffff;
+	/* Primary accent — purple */
+	--color-accent: #7c5cfc;
+	--color-accent-dark: #5e4cff;
+	--color-accent-light: #f3e8ff;
+	--color-accent-muted: #faf5ff;
+	--color-accent-foreground: #ffffff;
 
-  /* Success — green */
-  --color-success: #10b981;
-  --color-success-alt: #00bc7d;
-  --color-success-dark: #007a55;
-  --color-success-darker: #009966;
-  --color-success-light: #d0fae5;
-  --color-success-lightest: #ecfdf5;
-  --color-success-foreground: #007a55;
+	/* Success — green */
+	--color-success: #10b981;
+	--color-success-alt: #00bc7d;
+	--color-success-dark: #007a55;
+	--color-success-darker: #009966;
+	--color-success-light: #d0fae5;
+	--color-success-lightest: #ecfdf5;
+	--color-success-foreground: #007a55;
 
-  /* Info — blue */
-  --color-info: #61a8ff;
-  --color-info-dark: #155dfc;
-  --color-info-medium: #2b7fff;
-  --color-info-light: #dbeafe;
-  --color-info-lightest: #eff6ff;
-  --color-info-foreground: #155dfc;
-  --color-info-muted: #94a2c5;
+	/* Info — blue */
+	--color-info: #61a8ff;
+	--color-info-dark: #155dfc;
+	--color-info-medium: #2b7fff;
+	--color-info-light: #dbeafe;
+	--color-info-lightest: #eff6ff;
+	--color-info-foreground: #155dfc;
+	--color-info-muted: #94a2c5;
 
-  /* Warning — orange */
-  --color-warning: #ff8904;
-  --color-warning-foreground: #ffffff;
+	/* Warning — orange */
+	--color-warning: #ff8904;
+	--color-warning-foreground: #ffffff;
 
-  /* Error — red */
-  --color-error: #ef4444;
-  --color-error-foreground: #ffffff;
+	/* Error — red */
+	--color-error: #ef4444;
+	--color-error-foreground: #ffffff;
 
-  /* LinkedIn brand */
-  --color-linkedin: #0a66c2;
-  --color-linkedin-light: #dce6f1;
-  --color-linkedin-foreground: #ffffff;
+	/* LinkedIn brand */
+	--color-linkedin: #0a66c2;
+	--color-linkedin-light: #dce6f1;
+	--color-linkedin-foreground: #ffffff;
 
-  /* Dark overlays */
-  --color-overlay: #111827;
-  --color-overlay-dark: #131316;
+	/* Dark overlays */
+	--color-overlay: #111827;
+	--color-overlay-dark: #131316;
 
-  /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-full: 9999px;
+	/* Border radius */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--radius-xl: 16px;
+	--radius-full: 9999px;
 }
 ```
 
@@ -222,6 +222,32 @@ Font family: **Inter** — import from Google Fonts or use next/font/google.
 | `p-6`       | 24px       | Large card padding    |
 | `px-4 py-2` | 16px / 8px | Button padding        |
 | `px-3 py-1` | 12px / 4px | Badge padding         |
+
+### Tailwind v4 Spacing & Sizing Scale
+
+Tailwind v4 uses a 4px base unit. Every spacing/sizing utility (`w-`, `h-`, `p-`, `m-`, `gap-`, `max-w-`, etc.) maps `{n}` → `n × 0.25rem` = `n × 4px`.
+
+**Always prefer built-in scale classes over arbitrary `[Xpx]` values.** Divide the pixel value by 4 to get the scale number:
+
+| Arbitrary          | Built-in     | Calculation |
+|--------------------|--------------|-------------|
+| `max-w-[1080px]`   | `max-w-270`  | 1080 ÷ 4    |
+| `max-w-[920px]`    | `max-w-230`  | 920 ÷ 4     |
+| `max-w-[760px]`    | `max-w-190`  | 760 ÷ 4     |
+| `max-w-[720px]`    | `max-w-180`  | 720 ÷ 4     |
+| `max-w-[620px]`    | `max-w-155`  | 620 ÷ 4     |
+| `max-w-[580px]`    | `max-w-145`  | 580 ÷ 4     |
+| `max-w-[480px]`    | `max-w-120`  | 480 ÷ 4     |
+| `max-w-[460px]`    | `max-w-115`  | 460 ÷ 4     |
+| `max-w-[440px]`    | `max-w-110`  | 440 ÷ 4     |
+| `max-w-[380px]`    | `max-w-95`   | 380 ÷ 4     |
+
+**Exceptions** (keep arbitrary — no built-in equivalent):
+- `text-[clamp(...)]` — fluid typography
+- `grid-cols-[...]` — asymmetric grid layouts
+- `leading-[*]` — custom line-heights between scale steps
+- `tracking-[*]` — custom letter-spacing beyond Tailwind's range
+- `rounded-[*]` — custom radii not in `@theme`
 
 ---
 

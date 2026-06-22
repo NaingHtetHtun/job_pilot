@@ -96,6 +96,14 @@ export function ComponentName({ jobId, matchScore }: Props) {
 - Props type defined directly above the component — not in a separate types file unless shared
 - No inline styles — all styling via Tailwind classes using CSS variables from ui-tokens.md
 
+### Page Composition Rule
+
+- Page files (`app/**/page.tsx`) must only import and compose components — no inline component definitions
+- Every page section gets its own component file under the appropriate `components/` subdirectory
+- Data arrays and mock data live in the component file where they're used, never in page files
+- If a section appears on multiple pages, extract it into `components/shared/`
+- This rule exists so pages remain readable at a glance — you should see the full page layout within 15 lines
+
 ---
 
 ## API Route Handlers

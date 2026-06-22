@@ -58,7 +58,7 @@ Auth screens use a two-panel shell: a left explanatory panel with the establishe
 ### Landing Navbar
 
 File: components/layout/Navbar.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                                    |
 | ---------------- | -------------------------------------------------------------------------------------------------------- |
@@ -66,28 +66,28 @@ Last updated: 2026-06-03
 | Border           | `border-b border-border`                                                                                 |
 | Border radius    | `rounded-md` on CTA only                                                                                 |
 | Text — primary   | `text-sm font-medium text-text-dark`                                                                     |
-| Text — secondary | `landing-button-primary` on CTA                                                                         |
-| Spacing          | `mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8`             |
-| Hover state      | `hover:text-text-primary` on nav links, shared hover from `landing-button-primary` on CTA               |
+| Text — secondary | `text-sm font-medium text-accent-foreground` on CTA                                                      |
+| Spacing          | `mx-auto flex h-16 max-w-[1080px] items-center justify-between px-5 sm:px-8`                           |
+| Hover state      | `hover:text-text-primary` on nav links; `hover:opacity-90` on CTA                                        |
 | Shadow           | `none`                                                                                                   |
-| Accent usage     | `landing-button-primary` for the top-right CTA                                                          |
+| Accent usage     | `bg-overlay` for the top-right CTA                                                                       |
 
 **Pattern notes:**
-Top navigation is always a full-width white bar with a single bottom border and restrained typography. The only high-contrast element is the dark CTA on the right.
+Top navigation is always a full-width white bar with a single bottom border and restrained typography. Content width is 1080px centered. The only high-contrast element is the dark CTA on the right.
 
 ### Landing Hero
 
 File: components/homepage/Hero.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                                          |
 | ---------------- | -------------------------------------------------------------------------------------------------------------- |
-| Background       | `border border-border bg-surface` with `landing-hero-glow`                                                     |
-| Border           | `border border-border` with `border-b border-border` separating copy from preview                              |
-| Border radius    | `landing-button-*` on buttons, `rounded-[26px]` on browser frame                                               |
-| Text — primary   | `text-[clamp(2.75rem,7vw,4.625rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-text-slate`         |
-| Text — secondary | `text-base leading-7 text-text-secondary sm:text-lg`                                                           |
-| Spacing          | `px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24`, buttons in `mt-9 flex ... gap-3`, preview in `px-4 pt-7`   |
+| Background       | `landing-hero-glow` on copy section; `bg-surface-tertiary` on preview section                                  |
+| Border           | `border-b border-border` separating hero sections                                                              |
+| Border radius    | `rounded-md` on url bar; `rounded-[26px]` on browser frame; `landing-button-*` on buttons                      |
+| Text — primary   | `text-[clamp(2.5rem,6vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-text-slate`            |
+| Text — secondary | `text-base font-medium leading-7 text-text-secondary`                                                          |
+| Spacing          | `px-6 py-16 sm:px-10 sm:py-20 lg:px-16` for copy; `px-5 py-12 sm:px-10 lg:px-14` for preview                  |
 | Hover state      | Shared hover from `landing-button-primary` and `landing-button-secondary`                                      |
 | Shadow           | `landing-browser-shadow` on the dashboard image frame                                                          |
 | Accent usage     | `landing-hero-glow` pastel band plus `landing-button-primary` primary CTA and `landing-button-secondary` secondary CTA |
@@ -95,39 +95,56 @@ Last updated: 2026-06-03
 **Pattern notes:**
 Hero sections use the soft multicolor glow helper, centered headline copy, paired CTA buttons, and a large bordered product preview resting on a muted surface strip.
 
-### Split Feature Panel
+### HowItWorks — Feature Panel
 
-File: components/homepage/HowItWorks.tsx and components/homepage/Features.tsx
-Last updated: 2026-06-03
+File: components/homepage/HowItWorks.tsx
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                          |
 | ---------------- | ---------------------------------------------------------------------------------------------- |
-| Background       | `landing-panel landing-grid` outer shell with `bg-surface` content and `bg-surface-tertiary` media side |
-| Border           | `border border-border` outer shell with repeated `border-b border-border` item dividers        |
-| Border radius    | `rounded-[22px]` to `rounded-[28px]` on inset media cards                                      |
-| Text — primary   | `text-[clamp(2.2rem,5vw,3.6rem)] font-semibold ... text-text-slate`, item titles `text-lg font-semibold text-text-primary` |
-| Text — secondary | `text-base leading-7 text-text-secondary`                                                      |
-| Spacing          | Headings `px-9 py-9 sm:px-12 sm:py-12 lg:px-14 lg:py-16`, list rows `px-9 py-7`, media `px-6 py-10` |
+| Background       | `landing-grid` outer shell with `bg-surface` content and `bg-surface-tertiary` media side      |
+| Border           | `border-b border-border` on section; `lg:border-r` split; `border-t border-border` row dividers|
+| Border radius    | `rounded-2xl` on JobsPreview card; `rounded-lg` on company icon boxes                         |
+| Text — primary   | `text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-text-slate` heading |
+| Text — secondary | `text-base font-medium leading-7 text-text-secondary`                                          |
+| Spacing          | Headings `px-8 py-14 sm:px-14 lg:py-16`; rows `px-8 py-7 sm:px-14`                            |
 | Hover state      | `none`                                                                                         |
-| Shadow           | `landing-card-shadow` on image card in `HowItWorks`; plain bordered inset card in `Features`  |
-| Accent usage     | `border-l-2 border-accent pl-5` for the first left-side callout, `border-l-2 border-success pl-5` for the middle right-side callout |
+| Shadow           | `shadow-card` on JobsPreview card                                                              |
+| Accent usage     | `border-l-2 border-accent` on first feature row                                                |
+
+### Features — Confidence Panel
+
+File: components/homepage/Features.tsx
+Last updated: 2026-06-22
+
+| Property         | Class                                                                                          |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| Background       | `landing-grid` with `bg-surface-tertiary` image side and `bg-surface` content side             |
+| Border           | `border-b border-border` on section; `lg:border-r` split; `border-t border-border` row dividers|
+| Border radius    | `rounded-xl` on image card                                                                     |
+| Text — primary   | `text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-text-slate` heading |
+| Text — secondary | `text-base font-medium leading-7 text-text-secondary`                                          |
+| Spacing          | Headings `px-8 py-14 sm:px-14 lg:py-16`; rows `px-8 py-7 sm:px-14`; image `px-6 py-14 sm:px-10` |
+| Hover state      | `none`                                                                                         |
+| Shadow           | `landing-card-shadow` on image card                                                            |
+| Accent usage     | `border-l-2 border-success` on middle feature row                                              |
 
 **Pattern notes:**
-Feature storytelling panels alternate which side carries the visual. Copy stacks in bordered rows, and one row gets a colored left rule to anchor the section without changing the white card surfaces.
+Feature storytelling panels alternate which side carries the visual using `landing-grid` two-column layout. Copy stacks in bordered rows, and one row per panel gets a colored left-rule (`border-accent` in HowItWorks, `border-success` in Features) to anchor the section.
 
 ### Testimonial Section
 
 File: components/homepage/SuccessStory.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                         |
 | ---------------- | --------------------------------------------------------------------------------------------- |
-| Background       | `landing-panel bg-surface`                                                                    |
-| Border           | `border border-border`                                                                        |
+| Background       | `bg-surface` (inherited from page)                                                            |
+| Border           | `border-b border-border`                                                                      |
 | Border radius    | `rounded-full` on avatar only                                                                 |
-| Text — primary   | `text-[clamp(2rem,4.1vw,3.2rem)] font-medium leading-[1.18] tracking-[-0.04em] text-text-slate` |
-| Text — secondary | `text-sm text-text-secondary`                                                                 |
-| Spacing          | `px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24`, avatar row `mt-9 flex ... gap-3`           |
+| Text — primary   | `text-[clamp(1.65rem,3vw,2.35rem)] font-medium leading-[1.22] tracking-[-0.035em] text-text-slate-medium` |
+| Text — secondary | `text-xs font-medium text-text-secondary`                                                     |
+| Spacing          | `px-6 py-20 sm:px-12 lg:py-24`; eyebrow `mt-7` above quote; avatar row `mt-8 flex gap-3`     |
 | Hover state      | `none`                                                                                        |
 | Shadow           | `none`                                                                                        |
 | Accent usage     | `text-xs font-semibold uppercase tracking-[0.22em] text-accent` for section eyebrow          |
@@ -138,16 +155,16 @@ Social proof is centered and quiet: one accent eyebrow, a large editorial quote,
 ### CTA Banner
 
 File: components/homepage/CTASection.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                                       |
 | ---------------- | ----------------------------------------------------------------------------------------------------------- |
-| Background       | `landing-panel landing-hero-glow`                                                                           |
-| Border           | `border border-border`                                                                                      |
+| Background       | `landing-hero-glow`                                                                                         |
+| Border           | `border-b border-border`                                                                                    |
 | Border radius    | `landing-button-*` on buttons                                                                                |
-| Text — primary   | `text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[0.96] tracking-[-0.045em] text-text-slate`        |
-| Text — secondary | `text-base leading-7 text-text-secondary sm:text-lg`                                                        |
-| Spacing          | `px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24`, actions in `mt-9 flex ... gap-3`                         |
+| Text — primary   | `text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1] tracking-[-0.045em] text-text-slate`             |
+| Text — secondary | `text-base font-medium leading-7 text-text-secondary`                                                       |
+| Spacing          | `px-6 py-20 sm:px-10 lg:py-24`; actions `mt-8 flex gap-3`                                                  |
 | Hover state      | Shared hover from `landing-button-primary` and `landing-button-secondary`                                  |
 | Shadow           | `none`                                                                                                      |
 | Accent usage     | Same dark primary CTA and pastel glow pattern as the hero                                                   |
@@ -198,22 +215,62 @@ All landing-page CTAs should use these shared semantic classes instead of duplic
 ### Landing Footer
 
 File: components/layout/Footer.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-22
 
 | Property         | Class                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------- |
-| Background       | `bg-surface`                                                                          |
-| Border           | `border-x border-b border-border`                                                     |
+| Background       | `bg-surface` (inherited from page)                                                    |
+| Border           | `none`                                                                                |
 | Border radius    | `none`                                                                                |
 | Text — primary   | `text-sm font-medium text-text-secondary`                                             |
 | Text — secondary | `text-sm font-medium text-text-secondary`                                             |
-| Spacing          | `mx-auto flex max-w-[1440px] flex-col gap-6 px-6 py-10 sm:px-8 md:flex-row ... lg:px-10` |
+| Spacing          | `flex flex-col items-center justify-between gap-8 px-8 py-14 sm:flex-row`            |
 | Hover state      | `hover:text-text-primary`                                                             |
 | Shadow           | `none`                                                                                |
 | Accent usage     | `none`                                                                                |
 
 **Pattern notes:**
-Footer stays minimal and horizontal at larger sizes, using the same max-width and horizontal padding rhythm as the navbar.
+Footer stays minimal and horizontal at larger sizes. Logo on the left, nav links on the right.
+
+### FeatureRows
+
+File: components/homepage/FeatureRows.tsx
+Last updated: 2026-06-22
+
+| Property         | Class                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| Background       | `bg-surface` (inherited)                                                              |
+| Border           | `border-t border-border` row separators; `border-l-2` with accent class               |
+| Border radius    | `none`                                                                                |
+| Text — primary   | `text-lg font-semibold leading-6 text-text-primary` title                             |
+| Text — secondary | `text-base font-medium leading-7 text-text-secondary` description                     |
+| Spacing          | `px-8 py-7 sm:px-14` per row; `mt-3` description below title                          |
+| Hover state      | `none`                                                                                |
+| Shadow           | `none`                                                                                |
+| Accent usage     | Accent class passed via `accent` prop — `border-accent` or `border-transparent` or `border-success` |
+
+**Pattern notes:**
+Shared sub-component consumed by both `HowItWorks` and `Features`. Renders an array of `{ title, description, accent }` objects as bordered rows with a colored left rule. The `accent` prop controls the left border color.
+
+### JobsPreview
+
+File: components/homepage/JobsPreview.tsx
+Last updated: 2026-06-22
+
+| Property         | Class                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| Background       | `bg-surface`                                                                          |
+| Border           | `border border-border` card; `border-b border-border` row separators                 |
+| Border radius    | `rounded-2xl` card; `rounded-lg` company icon box; `rounded-md` source badge; `rounded-full` score bar |
+| Text — primary   | `text-sm font-semibold text-text-primary` company name; `text-xs font-semibold text-text-primary` score |
+| Text — secondary | `text-xs font-semibold uppercase tracking-wide text-text-secondary` column headers; `text-sm font-medium text-text-secondary` salary |
+| Spacing          | `p-5` card; `gap-3` column layout; `pb-3` header; `py-4` rows                         |
+| Hover state      | `none`                                                                                |
+| Shadow           | `shadow-card`                                                                         |
+| Accent usage     | Score bar colors: `bg-success` (94%+), `bg-info-medium` (88%), `bg-warning` (72%); source badge `bg-surface-secondary text-info-foreground` |
+
+**Pattern notes:**
+Static mock data card used in the landing page `HowItWorks` section. Intended as a visual preview only — data is hardcoded in the component file. Grid layout mimics the real `JobsTable` without being interactive.
 
 ### Analytics Logout Link
 

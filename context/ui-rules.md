@@ -190,6 +190,7 @@ This project uses Tailwind v4. Tokens are defined with `@theme` in globals.css �
 ## Do Nots
 
 - Never use Tailwind's built-in color classes (`bg-purple-500`, `text-gray-600`) — use project tokens only
+- Never use arbitrary `[Xpx]` values when a built-in Tailwind v4 scale class exists — divide px by 4 to get the scale number (see ui-tokens.md → Spacing section)
 - Never define colors in `tailwind.config.ts` — use `@theme` in globals.css
 - Never add gradients to card backgrounds
 - Never use more than one font weight in a single UI element
