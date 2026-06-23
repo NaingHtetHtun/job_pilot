@@ -297,7 +297,7 @@ Analytics wrapper links should preserve the exact visual classes of the link or 
 ### Profile Attention Banner
 
 File: components/profile/ProfileAttentionBanner.tsx
-Last updated: 2026-06-03
+Last updated: 2026-06-23
 
 | Property         | Class                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------- |
@@ -312,56 +312,32 @@ Last updated: 2026-06-03
 | Accent usage     | SVG ring stroke uses `var(--color-accent)`; warning badges use `bg-warning text-warning-foreground` |
 
 **Pattern notes:**
-Completion ring is a pure SVG circle with `stroke-dashoffset` driven by the `completionPercent` prop. Missing field badges use `rounded-sm` (not pill) with warning color. Ring is 88×88px, radius 34, stroke-width 8.
+Completion ring is a pure SVG circle with `stroke-dashoffset` driven by the `completionPercent` prop. Missing field badges use `rounded-sm` (not pill) with warning color. Ring is 88×88px, radius 34, stroke-width 8. Returns `null` when `completionPercent === 100`.
 
 ---
 
 ### Connected Accounts
 
 File: components/profile/ConnectedAccounts.tsx
-Last updated: 2026-06-03
-
-| Property         | Class                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------- |
-| Background       | `bg-surface`                                                                          |
-| Border           | `border border-border` outer card; `border border-border` inner provider row          |
-| Border radius    | `rounded-2xl` outer, `rounded-xl` provider row, `rounded-lg` icon box                |
-| Text — primary   | `text-sm font-medium text-text-primary`                                               |
-| Text — secondary | `text-xs text-text-muted`                                                             |
-| Spacing          | `p-6` card, `p-4` provider row                                                        |
-| Hover state      | `hover:opacity-90` on connect button                                                  |
-| Shadow           | `shadow-card`                                                                         |
-| Accent usage     | LinkedIn button uses `bg-linkedin text-linkedin-foreground`; icon box `bg-linkedin-light` |
+Last updated: 2026-06-23
 
 **Pattern notes:**
-Each provider row is a self-contained flex row with icon, name/status text, and an action button on the right. LinkedIn brand colors always come from the `linkedin` token, never hardcoded.
+Single card with a single provider row: inline SVG LinkedIn icon + label (left) / connected status + disconnect button (right). Uses `flex items-center justify-between gap-4`. LinkedIn icon is an inline SVG (lucide-react does not export `LinkedinIcon`). Connect btn: `text-sm font-medium text-accent hover:text-accent-hover`. Disconnect btn: `text-sm text-error hover:text-error-hover`. Container: `rounded-2xl border border-border bg-surface p-6 shadow-card`.
 
 ---
 
 ### Resume Section
 
 File: components/profile/ResumeSection.tsx
-Last updated: 2026-06-04
-
-| Property         | Class                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------- |
-| Background       | `bg-surface` card, `bg-surface-secondary` drop zone default                           |
-| Border           | `border border-border` card; `border-2 border-dashed border-border` drop zone         |
-| Border radius    | `rounded-2xl` card, `rounded-xl` drop zone, `rounded-full` upload icon ring           |
-| Text — primary   | `text-sm font-medium text-text-primary`                                               |
-| Text — secondary | `text-xs text-text-muted`                                                              |
-| Spacing          | `p-6` card, `py-10` drop zone, `mt-4 flex flex-col gap-3` footer area                 |
-| Hover state      | `hover:bg-surface-secondary` Select Resume + Generate buttons; `hover:opacity-90` Extract button |
-| Shadow           | `shadow-card` card, `shadow-card` upload icon ring                                    |
-| Accent usage     | `border-accent bg-accent-muted` when dragging; Extract button `bg-accent text-accent-foreground` |
+Last updated: 2026-06-23
 
 **Pattern notes:**
-Drop zone switches from `border-border bg-surface-secondary` to `border-accent bg-accent-muted` on `isDragging`. Hidden `<input type="file">` triggered by the Select Resume button via a `ref`. Only PDF files accepted. `Extract Profile` button only renders when a resume exists (`existingResumeUrl || fileName`). Accepts `onExtracted` callback prop. Uses separate `useTransition` instances: `isExtracting` for the extract flow, `isGenerating` for the generate flow. Generate button calls `POST /api/resume/generate`, then opens `/api/resume/download` in a new tab on success. Both action rows show error/success feedback below the button using `text-sm text-error` / `text-sm text-success`.
+Drop zone switches from `border-border bg-surface-secondary` to `border-accent bg-accent-muted` on `isDragging`. Hidden `<input type="file">` triggered by the Select Resume button via a `ref`. Only PDF files accepted. `Extract Profile` button only renders when a resume exists (`hasResume = !!existingResumeUrl || !!selectedFile`). Accepts `onExtracted` callback prop. Uses separate `useTransition` instances: `isExtracting` for the extract flow, `isGenerating` for the generate flow. Generate button calls `POST /api/resume/generate`, then opens `/api/resume/download` in a new tab on success. Both action rows show error/success feedback below the button using `text-sm text-error` / `text-sm text-success`. Container: `rounded-2xl border border-border bg-surface p-6 shadow-card`. Select Resume & Generate buttons: `rounded-lg border border-border bg-surface-secondary text-sm font-medium text-text-primary hover:bg-surface-secondary`. Extract button: `rounded-lg bg-accent text-sm font-medium text-accent-foreground hover:opacity-90`.
 
 ### Profile Page Client
 
 File: components/profile/ProfilePageClient.tsx
-Last updated: 2026-06-04
+Last updated: 2026-06-23
 
 Thin client wrapper that owns the `useRef<ProfileFormHandle>` connecting `ResumeSection.onExtracted` to `ProfileForm.applyExtracted`. Has no visible UI of its own — renders `<ResumeSection>` then `<ProfileForm>` with the ref wired between them.
 
@@ -370,22 +346,10 @@ Thin client wrapper that owns the `useRef<ProfileFormHandle>` connecting `Resume
 ### Profile Form
 
 File: components/profile/ProfileForm.tsx
-Last updated: 2026-06-03
-
-| Property         | Class                                                                                 |
-| ---------------- | ------------------------------------------------------------------------------------- |
-| Background       | `bg-surface`                                                                          |
-| Border           | `border border-border` card; `border-t border-border` section dividers; `border border-border` work entry cards |
-| Border radius    | `rounded-2xl` outer card, `rounded-xl` work entry cards, `rounded-lg` inputs/selects/buttons |
-| Text — primary   | `text-sm font-semibold text-text-primary` section headings; `text-sm text-text-primary` body |
-| Text — secondary | `text-xs font-medium uppercase tracking-wide text-text-secondary` form labels         |
-| Spacing          | `p-6` body, `px-6 py-5` header, `px-6 py-4` footer, `space-y-8` section gaps         |
-| Hover state      | `hover:bg-surface-secondary` secondary buttons; `hover:opacity-90` primary/Save button |
-| Shadow           | `shadow-card`                                                                         |
-| Accent usage     | `focus:ring-1 focus:ring-accent` on all inputs; `bg-accent-light text-accent` skill tags; `bg-accent text-accent-foreground` Save button |
+Last updated: 2026-06-23
 
 **Pattern notes:**
-Form labels use `text-xs font-medium uppercase tracking-wide` — all caps with letter-spacing, not sentence case. Tag inputs render removable pill chips with `bg-accent-light text-accent`. Work Experience entries are individually bordered sub-cards inside the main form card. Month/Year pickers use two adjacent `<select>` elements. Save Profile button is full-width at the bottom of the card.
+Form card: `rounded-2xl border border-border bg-surface shadow-card`. Header: `px-6 py-5 border-b border-border`. Footer: `px-6 py-4 border-t border-border`. Section gap: `space-y-8`. Section headings: `text-base font-semibold text-text-primary`. Form labels: `text-xs font-medium uppercase tracking-wide text-text-secondary`. All inputs/selects: `rounded-lg border border-border bg-surface-secondary px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-accent`. Work Experience entries are individually bordered sub-cards (`rounded-xl border border-border p-4`). Tag inputs render removable pill chips with `bg-accent-light text-accent`. Month/Year pickers use two adjacent `<select>` elements. Save Profile button is `inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50` — not full-width, sits in a flex row alongside error/success messages. `forwardRef`-based with `useImperativeHandle` exposing `applyExtracted(data)`.
 
 ---
 
