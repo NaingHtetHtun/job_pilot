@@ -168,6 +168,7 @@ Read `memory.md` first. Then check for these specific context files if they exis
 - `.cursorrules`, `.cursor/rules/` — Cursor
 - `.windsurfrules` — Windsurf
 - `AGENTS.md` — Codex
+- `AGENTS.md` — OpenCode
 - `.clinerules` — Cline
 - `context.md` — generic fallback
 

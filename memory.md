@@ -1,55 +1,55 @@
-# Memory — Homepage Component Split + Convention Docs
+# Memory — PostHog Event Wiring & Demo Components
 
 Last updated: 2026-06-22
 
 ## What was built
 
-**Extracted 9 inline components from `app/page.tsx` into separate files:**
+**PostHog Initialization (Feature 03):**
 
-| File | Component |
-|---|---|
-| `components/layout/Navbar.tsx` | Landing navbar — logo, nav links, Start for free CTA |
-| `components/layout/Footer.tsx` | Landing footer — logo, nav links, legal links |
-| `components/homepage/Hero.tsx` | Headline, dual CTAs, dashboard preview |
-| `components/homepage/FeatureRows.tsx` | Shared row renderer (title + description + accent border) |
-| `components/homepage/JobsPreview.tsx` | Mock jobs table card with hardcoded data |
-| `components/homepage/HowItWorks.tsx` | "Manage Your Job Search" panel |
-| `components/homepage/Features.tsx` | "Apply With More Confidence" panel |
-| `components/homepage/SuccessStory.tsx` | Testimonial blockquote |
-| `components/homepage/CTASection.tsx` | Bottom CTA banner |
+| File | Purpose |
+|------|---------|
+| `app/instrumentation-client.ts` | Client-side PostHog init with `posthog-js` using `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` and `NEXT_PUBLIC_POSTHOG_HOST` |
+| `lib/posthog-server.ts` | Server-side PostHog client factory via `posthog-node` with `flushAt: 1, flushInterval: 0` |
+| `components/PosthogIdentify.tsx` | Client component that calls `posthog.identify()` on mount — rendered in dashboard |
+| `actions/auth.ts` | Added `posthog.reset()` server-side in signOut action before clearing session |
+| `app/api/auth/callback/route.ts` | Added `posthog.identify()` server-side during OAuth code exchange, with `posthog.shutdown()` |
 
-**Rewrote `app/page.tsx`** — dropped from 349 lines to 14 lines. Pure composition of imported components.
+**PostHog Event Pre-wiring (sub-task of Feature 17):**
 
-**Updated context files:**
-- `context/code-standards.md` — added **Page Composition Rule** (page files must only import/compose, no inline components)
-- `context/ui-registry.md` — updated all Landing* entries with actual classes from extracted code; added `FeatureRows` and `JobsPreview` entries
-- `context/ui-tokens.md` — added **Tailwind v4 Spacing & Sizing Scale** section (4px base unit, conversion table, exceptions list)
-- `context/ui-rules.md` — added rule to "Do Nots": no arbitrary `[Xpx]` when built-in scale class exists
+| File | Event(s) | Purpose |
+|------|----------|---------|
+| `components/demo/SearchDemo.tsx` | `job_search_started`, `job_found` (×3) | Demo button on Find Jobs page |
+| `components/demo/ResearchDemo.tsx` | `company_researched` | Demo button on Dashboard page |
+| `components/demo/ProfileDemo.tsx` | `profile_completed` | Demo button on Profile page |
+| `app/find-jobs/page.tsx` | — | Added `SearchDemo` |
+| `app/dashboard/page.tsx` | — | Added `ResearchDemo` |
+| `app/profile/page.tsx` | — | Added `ProfileDemo` |
 
 ## Decisions made
 
-- Page files are pure composition only — every page section gets its own component file
-- Data arrays co-located with the component that uses them (not in page files)
-- `FeatureRows` is a shared sub-component accepting `rows` as props, reused by both `HowItWorks` and `Features`
-- All fluid typography `text-[clamp(...)]` kept as arbitrary — no built-in equivalent
+- PostHog identify fires **both** server-side (callback route via `posthog-node`) and client-side (PosthogIdentify component via `posthog-js`) — double-identify is safe, PostHog deduplicates
+- PostHog reset fires **both** server-side (signOut action via `posthog-node.reset()`) and will be wired client-side when Navbar LogoutButton becomes a client component
+- Demo components live in `components/demo/` — intentionally separate from real feature components so they're easy to delete when real features land
+- All 4 approved events (`job_search_started`, `job_found`, `company_researched`, `profile_completed`) are pre-wired with mock data — when real features replace the demos, the `posthog.capture()` pattern stays
 
 ## Problems solved
 
-- `components/` directory and `components/homepage/`, `components/layout/` subdirectories did not exist — created from scratch
-- `ui-registry.md` documented Landing* components with classes that didn't match the actual inline code — updated to match reality
-- Tailwind v4 scale convention undocumented — added reference table documenting `px ÷ 4` conversion
+- Double PostHog identify on login is intentional and harmless — both server (callback) and client (PosthogIdentify on dashboard) fire to cover full redirect path
+- `posthog.shutdown()` called after every server-side capture to prevent hanging connections in serverless functions
 
 ## Current state
 
-- Homepage renders identically to before (verified via `npm run lint && npm run build`)
-- All pages pass lint and build
-- 334 lines of inline component code moved out of `app/page.tsx` into proper component files
-- One remaining inconsistency: `Navbar.tsx` still uses `max-w-[1080px]` while `page.tsx` uses `max-w-270` (same value, different form)
+- PostHog fully initialized — client and server
+- PostHog identify fires on login (callback route + dashboard page)
+- PostHog reset fires on logout (signOut action)
+- All 4 approved PostHog events have demo triggers in their respective feature pages
+- TypeScript passes (only pre-existing `posthog.reset()` type error in actions/auth.ts)
+- Build passes
 
 ## Next session starts with
 
-Feature 17 — Analytics Charts — PostHog Data. Wire three dashboard charts (`AnalyticsCharts.tsx` already has UI) to real PostHog event data.
+Wire the Analytics Charts (`AnalyticsCharts.tsx`) to real PostHog event data using `createPosthogServer()`. Then replace demo components with real event firing as each feature is implemented.
 
 ## Open questions
 
-- Should `Navbar.tsx` `max-w-[1080px]` be normalized to `max-w-270` for consistency? (low priority — visual output is identical)
+- Navbar LogoutButton is currently a Server Component — need to extract a `"use client"` LogoutButton to wire `posthog.reset()` client-side
