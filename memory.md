@@ -1,50 +1,54 @@
-# Memory — PostHog Event Wiring & Demo Components
+# Memory — Database Schema Reorganization (Feature 04)
 
-Last updated: 2026-06-22
+Last updated: 2026-06-23
 
 ## What was built
 
-**PostHog Initialization (Feature 03):**
+**Feature 04 — Database Schema Reorganization:**
+
+All SQL migrations and TypeScript types split into one file per table.
+
+**SQL Migrations:**
 
 | File | Purpose |
 |------|---------|
-| `app/instrumentation-client.ts` | Client-side PostHog init with `posthog-js` using `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` and `NEXT_PUBLIC_POSTHOG_HOST` |
-| `lib/posthog-server.ts` | Server-side PostHog client factory via `posthog-node` with `flushAt: 1, flushInterval: 0` |
-| `components/PosthogIdentify.tsx` | Client component that calls `posthog.identify()` on mount — rendered in dashboard |
-| `actions/auth.ts` | Added `posthog.reset()` server-side in signOut action before clearing session |
-| `app/api/auth/callback/route.ts` | Added `posthog.identify()` server-side during OAuth code exchange, with `posthog.shutdown()` |
+| `migrations/20260623000001_profiles.sql` | Profiles table, auth trigger, updated_at trigger, RLS, pgcrypto extension, storage note |
+| `migrations/20260623000002_agent_runs.sql` | Agent runs table + RLS |
+| `migrations/20260623000003_jobs.sql` | Jobs table + RLS |
+| `migrations/20260623000004_agent_logs.sql` | Agent logs table + RLS |
 
-**PostHog Event Pre-wiring (sub-task of Feature 17):**
+Original `20260622055638_initial-schema.sql` kept as-is. `20260622152255_fix-auth-trigger-raw-user-meta-data.sql` deleted — its fix (`new.profile ->> 'name'`) was baked directly into `20260623000001_profiles.sql`.
 
-| File | Event(s) | Purpose |
-|------|----------|---------|
-| `components/demo/SearchDemo.tsx` | `job_search_started`, `job_found` (×3) | Demo button on Find Jobs page |
-| `components/demo/ResearchDemo.tsx` | `company_researched` | Demo button on Dashboard page |
-| `components/demo/ProfileDemo.tsx` | `profile_completed` | Demo button on Profile page |
-| `app/find-jobs/page.tsx` | — | Added `SearchDemo` |
-| `app/dashboard/page.tsx` | — | Added `ResearchDemo` |
-| `app/profile/page.tsx` | — | Added `ProfileDemo` |
+**TypeScript Types:**
+
+| File | Exports |
+|------|---------|
+| `types/profile.ts` | `Profile`, `WorkExperience`, `Education` |
+| `types/agent-run.ts` | `AgentRun` |
+| `types/job.ts` | `Job`, `CompanyResearchDossier` |
+| `types/agent-log.ts` | `AgentLog` |
+| `types/missing-field.ts` | `MissingField` |
+| `types/index.ts` | Re-exports all types from the above files |
 
 ## Decisions made
 
-- PostHog identify fires **both** server-side (callback route via `posthog-node`) and client-side (PosthogIdentify component via `posthog-js`) — double-identify is safe, PostHog deduplicates
-- PostHog reset fires **both** server-side (signOut action via `posthog-node.reset()`) and will be wired client-side when Navbar LogoutButton becomes a client component
-- Demo components live in `components/demo/` — intentionally separate from real feature components so they're easy to delete when real features land
-- All 4 approved events (`job_search_started`, `job_found`, `company_researched`, `profile_completed`) are pre-wired with mock data — when real features replace the demos, the `posthog.capture()` pattern stays
+- Each table gets its own migration file and its own TypeScript type file — one table, one file for each
+- Split migration files use `IF NOT EXISTS` and `create policy if not exists` — safe to apply against existing DB (no-ops for existing objects)
+- Original `initial-schema.sql` stays as the foundational migration — no reason to delete what already ran
+- `types/index.ts` re-exports via `export type { ... } from "./file"` pattern — zero impact on any future imports from `@/types`
+- No types are imported in app code yet, so there was zero breakage risk
+- Fix migration file deleted and its fix (`new.profile ->> 'name'`) baked directly into `profiles.sql` — each per-table migration must be self-contained and correct
 
 ## Problems solved
 
-- Double PostHog identify on login is intentional and harmless — both server (callback) and client (PosthogIdentify on dashboard) fire to cover full redirect path
-- `posthog.shutdown()` called after every server-side capture to prevent hanging connections in serverless functions
+- Auth trigger now uses the correct `auth.users.profile` JSONB column path instead of the non-existent `raw_user_meta_data`
 
 ## Current state
 
-- PostHog fully initialized — client and server
-- PostHog identify fires on login (callback route + dashboard page)
-- PostHog reset fires on logout (signOut action)
-- All 4 approved PostHog events have demo triggers in their respective feature pages
-- TypeScript passes (only pre-existing `posthog.reset()` type error in actions/auth.ts)
-- Build passes
+- All 4 tables have standalone SQL migration files
+- All 4 tables + helper types have standalone TypeScript files
+- `types/index.ts` re-exports everything for convenient `@/types` imports
+- Build passes with zero TypeScript errors
 
 ## Next session starts with
 
@@ -52,4 +56,4 @@ Wire the Analytics Charts (`AnalyticsCharts.tsx`) to real PostHog event data usi
 
 ## Open questions
 
-- Navbar LogoutButton is currently a Server Component — need to extract a `"use client"` LogoutButton to wire `posthog.reset()` client-side
+- (none)

@@ -1,0 +1,10 @@
+export type MissingField =
+  | "FULL_NAME"
+  | "PHONE"
+  | "LOCATION"
+  | "CURRENT_TITLE"
+  | "EXPERIENCE_LEVEL"
+  | "YEARS_EXPERIENCE"
+  | "SKILLS"
+  | "WORK_EXPERIENCE"
+  | "EDUCATION"
