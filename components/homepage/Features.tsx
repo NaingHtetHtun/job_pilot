@@ -38,7 +38,7 @@ export function Features() {
 			</div>
 			<div>
 				<div className="px-8 py-14 sm:px-14 lg:py-16">
-					<h2 className="max-w-110 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-text-slate">
+					<h2 className="max-w-110 text-[clamp(2rem,4vw,3.25rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-text-slate">
 						Apply With More Confidence, Every Time
 					</h2>
 				</div>

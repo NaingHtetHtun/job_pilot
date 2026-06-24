@@ -16,7 +16,7 @@ export default async function LoginPage(props: {
 
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold">Welcome back</h1>
-          <p className="text-text-muted text-sm">
+          <p className="text-sm text-text-muted">
             Sign in to continue to JobPilot
           </p>
         </div>
@@ -53,7 +53,7 @@ export default async function LoginPage(props: {
           </form>
         </div>
 
-        <p className="text-text-muted text-center text-xs">
+        <p className="text-center text-xs text-text-muted">
           By continuing, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>

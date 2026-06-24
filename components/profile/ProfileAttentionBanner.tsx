@@ -30,7 +30,7 @@ export function ProfileAttentionBanner({ completionPercent, missingFields }: Pro
           ))}
         </div>
       </div>
-      <div className="relative h-22 w-22 flex-shrink-0">
+      <div className="relative size-22 shrink-0">
         <svg width="88" height="88" viewBox="0 0 88 88" className="rotate-[-90deg]">
           <circle cx="44" cy="44" r={radius} fill="none" stroke="var(--color-border)" strokeWidth="8" />
           <circle

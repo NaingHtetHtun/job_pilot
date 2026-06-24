@@ -207,7 +207,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           <h3 className="mb-4 text-sm font-semibold text-text-primary">Personal Info</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Full Name</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Full Name</label>
               <input
                 name="full_name"
                 value={fullName}
@@ -217,7 +217,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Email</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Email</label>
               <input
                 value={userEmail}
                 disabled
@@ -225,7 +225,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Phone Number</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Phone Number</label>
               <input
                 name="phone"
                 value={phone}
@@ -235,7 +235,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Location</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Location</label>
               <input
                 name="location"
                 value={location}
@@ -245,7 +245,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">LinkedIn URL</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">LinkedIn URL</label>
               <input
                 name="linkedin_url"
                 value={linkedinUrl}
@@ -255,7 +255,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Portfolio / GitHub</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Portfolio / GitHub</label>
               <input
                 name="portfolio_url"
                 value={portfolioUrl}
@@ -265,7 +265,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Work Authorization</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Work Authorization</label>
               <select
                 name="work_authorization"
                 value={workAuthorization}
@@ -288,7 +288,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           <h3 className="mb-4 text-sm font-semibold text-text-primary">Professional Info</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Current Job Title</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Current Job Title</label>
               <input
                 name="current_title"
                 value={currentTitle}
@@ -298,7 +298,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Experience Level</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Experience Level</label>
               <select
                 name="experience_level"
                 value={experienceLevel}
@@ -314,7 +314,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Years of Experience</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Years of Experience</label>
               <input
                 name="years_experience"
                 type="number"
@@ -329,7 +329,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           </div>
 
           <div className="mt-4">
-            <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Skills</label>
+            <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Skills</label>
             <div className="mt-1 flex gap-2">
               <input
                 value={skillInput}
@@ -364,7 +364,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           </div>
 
           <div className="mt-4">
-            <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Industries</label>
+            <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Industries</label>
             <div className="mt-1 flex gap-2">
               <input
                 value={industryInput}
@@ -417,7 +417,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
             {workExperience.map((role, index) => (
               <div key={index} className="rounded-xl border border-border p-4">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-xs font-medium uppercase tracking-wide text-text-muted">
+                  <span className="text-xs font-medium tracking-wide text-text-muted uppercase">
                     Role {index + 1}
                   </span>
                   <button
@@ -430,7 +430,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">
+                    <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">
                       Company Name
                     </label>
                     <input
@@ -441,7 +441,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">
+                    <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">
                       Job Title
                     </label>
                     <input
@@ -452,7 +452,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">
+                    <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">
                       Start Date
                     </label>
                     <div className="mt-1 flex gap-2">
@@ -487,7 +487,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">
+                    <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">
                       End Date
                     </label>
                     <div className="mt-1 flex gap-2">
@@ -530,14 +530,14 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     id={`currently-working-${index}`}
                     checked={role.currentlyWorking}
                     onChange={(e) => updateWorkRole(index, "currentlyWorking", e.target.checked)}
-                    className="h-4 w-4 rounded border-border text-accent focus:ring-accent"
+                    className="size-4 rounded border-border text-accent focus:ring-accent"
                   />
                   <label htmlFor={`currently-working-${index}`} className="text-sm text-text-primary">
                     I currently work here
                   </label>
                 </div>
                 <div className="mt-3">
-                  <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">
+                  <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">
                     Key Responsibilities
                   </label>
                   <textarea
@@ -561,7 +561,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           <h3 className="mb-4 text-sm font-semibold text-text-primary">Education</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Highest Degree</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Highest Degree</label>
               <select
                 value={(education as { degree: string }).degree}
                 onChange={(e) => setEducation({ ...education, degree: e.target.value })}
@@ -574,7 +574,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Field of Study</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Field of Study</label>
               <input
                 value={(education as { field: string }).field}
                 onChange={(e) => setEducation({ ...education, field: e.target.value })}
@@ -583,7 +583,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Institution Name</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Institution Name</label>
               <input
                 value={(education as { institution: string }).institution}
                 onChange={(e) => setEducation({ ...education, institution: e.target.value })}
@@ -592,7 +592,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Graduation Year</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Graduation Year</label>
               <select
                 value={(education as { year: string }).year}
                 onChange={(e) => setEducation({ ...education, year: e.target.value })}
@@ -612,7 +612,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           <h3 className="mb-4 text-sm font-semibold text-text-primary">Job Preferences</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Remote Preference</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Remote Preference</label>
               <select
                 name="remote_preference"
                 value={remotePreference}
@@ -628,7 +628,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Salary Expectation</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Salary Expectation</label>
               <input
                 name="salary_expectation"
                 value={salaryExpectation}
@@ -638,7 +638,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
               />
             </div>
             <div>
-              <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Cover Letter Tone</label>
+              <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Cover Letter Tone</label>
               <select
                 name="cover_letter_tone"
                 value={coverLetterTone}
@@ -656,7 +656,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           </div>
 
           <div className="mt-4">
-            <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Job Titles Seeking</label>
+            <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Job Titles Seeking</label>
             <div className="mt-1 flex gap-2">
               <input
                 value={titleInput}
@@ -691,7 +691,7 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
           </div>
 
           <div className="mt-4">
-            <label className="text-xs font-medium uppercase tracking-wide text-text-secondary">Preferred Locations</label>
+            <label className="text-xs font-medium tracking-wide text-text-secondary uppercase">Preferred Locations</label>
             <div className="mt-1 flex gap-2">
               <input
                 value={locationInput}

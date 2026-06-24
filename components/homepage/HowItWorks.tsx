@@ -25,9 +25,9 @@ const featureRows = [
 export function HowItWorks() {
 	return (
 		<section className="landing-grid border-b border-border">
-			<div className="border-b border-border lg:border-b-0 lg:border-r">
+			<div className="border-b border-border lg:border-r lg:border-b-0">
 				<div className="px-8 py-14 sm:px-14 lg:py-16">
-					<h2 className="max-w-95 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-text-slate">
+					<h2 className="max-w-95 text-[clamp(2rem,4vw,3.25rem)] leading-[1.05] font-semibold tracking-[-0.04em] text-text-slate">
 						Manage Your Job Search With Ease
 					</h2>
 				</div>

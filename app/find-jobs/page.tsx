@@ -11,7 +11,7 @@ export default async function FindJobsPage() {
       <div className="mx-auto max-w-270 px-5 py-8 sm:px-8">
         <div className="mb-6">
           <h1 className="text-2xl font-bold">Find Jobs</h1>
-          <p className="text-text-muted text-sm">
+          <p className="text-sm text-text-muted">
             Signed in as {user.email}
           </p>
         </div>

@@ -3,11 +3,11 @@ import Link from "next/link";
 export function CTASection() {
 	return (
 		<section className="landing-hero-glow border-b border-border px-6 py-20 text-center sm:px-10 lg:py-24">
-			<h2 className="mx-auto max-w-190 text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-none tracking-[-0.045em] text-text-slate">
+			<h2 className="mx-auto max-w-190 text-[clamp(2.25rem,5vw,4rem)] leading-none font-semibold tracking-[-0.045em] text-text-slate">
 				Your next job search can feel a
 				<br className="hidden sm:block" /> lot less overwhelming
 			</h2>
-			<p className="mx-auto mt-6 max-w-155 text-base font-medium leading-7 text-text-secondary">
+			<p className="mx-auto mt-6 max-w-155 text-base leading-7 font-medium text-text-secondary">
 				Set up your profile, upload your resume, and start finding
 				matches in minutes.
 			</p>

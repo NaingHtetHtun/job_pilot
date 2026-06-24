@@ -10,7 +10,7 @@ const jobRows = [
 export function JobsPreview() {
 	return (
 		<div className="w-full max-w-115 rounded-2xl border border-border bg-surface p-5 shadow-card">
-			<div className="grid grid-cols-[1.2fr_1fr_1.1fr_0.8fr] gap-3 border-b border-border pb-3 text-xs font-semibold uppercase tracking-wide text-text-secondary">
+			<div className="grid grid-cols-[1.2fr_1fr_1.1fr_0.8fr] gap-3 border-b border-border pb-3 text-xs font-semibold tracking-wide text-text-secondary uppercase">
 				<span>Company</span>
 				<span>Match Score</span>
 				<span>Salary Est.</span>
@@ -22,7 +22,7 @@ export function JobsPreview() {
 						key={company}
 						className="grid grid-cols-[1.2fr_1fr_1.1fr_0.8fr] items-center gap-3 border-b border-border py-4 last:border-b-0">
 						<div className="flex items-center gap-3">
-							<span className="flex h-7 w-7 items-center justify-center rounded-lg bg-surface-secondary text-xs font-semibold text-text-muted">
+							<span className="flex size-7 items-center justify-center rounded-lg bg-surface-secondary text-xs font-semibold text-text-muted">
 								◼
 							</span>
 							<span className="text-sm font-semibold text-text-primary">

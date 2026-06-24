@@ -10,7 +10,7 @@ export default function Home() {
 	return (
 		<main className="min-h-screen bg-surface text-text-primary">
 			<Navbar />
-			<div className="mx-auto max-w-270 **:not-[]:border-x border-border bg-surface">
+			<div className="**:not-[]:border-x mx-auto max-w-270 border-border bg-surface">
 				<Hero />
 				<HowItWorks />
 				<Features />

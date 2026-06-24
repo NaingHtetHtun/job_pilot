@@ -117,8 +117,8 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
         }`}
         onClick={() => fileInputRef.current?.click()}
       >
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-surface shadow-card">
-          <UploadIcon className="h-5 w-5 text-text-muted" />
+        <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-surface shadow-card">
+          <UploadIcon className="size-5 text-text-muted" />
         </div>
         <p className="mt-3 text-sm font-medium text-text-primary">
           Click to upload or drag and drop
@@ -173,7 +173,7 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
                 }
               })
             }}
-            className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-hover underline underline-offset-2 cursor-pointer"
+            className="hover:text-accent-hover inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-accent underline underline-offset-2"
           >
             {isUploading ? "Opening..." : "View current resume"}
           </button>

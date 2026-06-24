@@ -29,6 +29,7 @@ Read in this exact order before any implementation:
 ## Rules That Never Change
 
 - Never use hardcoded hex values or raw Tailwind color classes
+- Always use canonical Tailwind v4 class names — e.g. `shrink-0` not `flex-shrink-0`, `grow` not `flex-grow`, `size-4` not `h-4 w-4`. The ESLint config enforces this.
 - Update `progress-tracker.md` and `ui-registry.md` after every feature
 - Before any third party library — load its installed skill first,
   then read `context/library-docs.md` for project-specific rules

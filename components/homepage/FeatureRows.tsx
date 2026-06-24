@@ -15,10 +15,10 @@ export function FeatureRows({ rows }: Props) {
 				<div
 					key={row.title}
 					className={`border-t border-border px-8 py-7 sm:px-14 ${row.accent} border-l-2`}>
-					<h3 className="text-lg font-semibold leading-6 text-text-primary">
+					<h3 className="text-lg leading-6 font-semibold text-text-primary">
 						{row.title}
 					</h3>
-					<p className="mt-3 max-w-120 text-base font-medium leading-7 text-text-secondary">
+					<p className="mt-3 max-w-120 text-base leading-7 font-medium text-text-secondary">
 						{row.description}
 					</p>
 				</div>

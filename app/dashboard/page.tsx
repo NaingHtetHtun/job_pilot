@@ -13,7 +13,7 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-270 px-5 py-8 sm:px-8">
         <div className="mb-6">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-text-muted text-sm">
+          <p className="text-sm text-text-muted">
             Welcome back, {user.email}
           </p>
         </div>

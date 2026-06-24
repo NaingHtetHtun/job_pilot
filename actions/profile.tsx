@@ -185,17 +185,31 @@ export async function extractResume() {
     maxTokens: 4000,
   })
 
-  const data = parseLlmJson(completion.choices[0].message.content) as Record<string, unknown>
-  return data
+  return parseLlmJson(completion.choices[0].message.content)
 }
 
-function parseLlmJson(content: string | null | undefined): Record<string, unknown> {
+function parseLlmJson<T = Record<string, unknown>>(content: string | null | undefined): T {
   if (!content) throw new Error("Empty response from AI")
   let cleaned = content.trim()
   if (cleaned.startsWith("```")) {
     cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, "").replace(/\n?```\s*$/, "")
   }
-  return JSON.parse(cleaned)
+  return JSON.parse(cleaned) as T
+}
+
+type ResumeData = {
+  name: string
+  title: string
+  summary: string
+  skills: string[]
+  experience: Array<{
+    company: string
+    title: string
+    startDate: string
+    endDate: string
+    responsibilities: string[]
+  }>
+  education: { degree: string; field: string; institution: string; year: string }
 }
 
 export async function generateResume() {
@@ -236,7 +250,7 @@ export async function generateResume() {
     maxTokens: 4000,
   })
 
-  const resumeData = parseLlmJson(completion.choices[0].message.content) as any
+  const resumeData = parseLlmJson<ResumeData>(completion.choices[0].message.content)
 
   const { renderToBuffer, Document, Page, Text, View, StyleSheet } = await import("@react-pdf/renderer")
 
