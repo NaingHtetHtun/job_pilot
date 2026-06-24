@@ -5,6 +5,8 @@ const protectedPaths = [
   "/dashboard",
   "/profile",
   "/find-jobs",
+  "/api/resume/extract",
+  "/api/resume/generate",
 ]
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

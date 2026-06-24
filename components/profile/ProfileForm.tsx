@@ -457,10 +457,10 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     </label>
                     <div className="mt-1 flex gap-2">
                       <select
-                        value={role.startDate.split(" ")[1] || ""}
+                        value={(role.startDate ?? "").split(" ")[0] || ""}
                         onChange={(e) => {
                           const month = e.target.value
-                          const year = role.startDate.split(" ")[2] || ""
+                          const year = (role.startDate ?? "").split(" ")[1] || ""
                           updateWorkRole(index, "startDate", `${month} ${year}`)
                         }}
                         className="flex-1 appearance-none rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text-primary focus:ring-1 focus:ring-accent"
@@ -471,9 +471,9 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                         ))}
                       </select>
                       <select
-                        value={role.startDate.split(" ")[2] || ""}
+                        value={(role.startDate ?? "").split(" ")[1] || ""}
                         onChange={(e) => {
-                          const month = role.startDate.split(" ")[1] || ""
+                          const month = (role.startDate ?? "").split(" ")[0] || ""
                           const year = e.target.value
                           updateWorkRole(index, "startDate", `${month} ${year}`)
                         }}
@@ -492,10 +492,10 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                     </label>
                     <div className="mt-1 flex gap-2">
                       <select
-                        value={role.currentlyWorking ? "" : (role.endDate.split(" ")[1] || "")}
+                        value={role.currentlyWorking ? "" : ((role.endDate ?? "").split(" ")[0] || "")}
                         onChange={(e) => {
                           const month = e.target.value
-                          const year = role.endDate.split(" ")[2] || ""
+                          const year = (role.endDate ?? "").split(" ")[1] || ""
                           updateWorkRole(index, "endDate", `${month} ${year}`)
                         }}
                         disabled={role.currentlyWorking}
@@ -507,9 +507,9 @@ export const ProfileForm = forwardRef<ProfileFormHandle, Props>(function Profile
                         ))}
                       </select>
                       <select
-                        value={role.currentlyWorking ? "" : (role.endDate.split(" ")[2] || "")}
+                        value={role.currentlyWorking ? "" : ((role.endDate ?? "").split(" ")[1] || "")}
                         onChange={(e) => {
-                          const month = role.endDate.split(" ")[1] || ""
+                          const month = (role.endDate ?? "").split(" ")[0] || ""
                           const year = e.target.value
                           updateWorkRole(index, "endDate", `${month} ${year}`)
                         }}

@@ -1,52 +1,43 @@
-# Memory — Profile Page UI + Save Logic (Features 05–06)
+# Memory — Profile Page Bug Fixes (Post-Build Session)
 
-Last updated: 2026-06-23
+Last updated: 2026-06-24
 
 ## What was built
 
-**Feature 05 — Profile Page UI:**
-- `components/profile/ProfileAttentionBanner.tsx` — SVG circular progress ring + warning badge tags, returns null at 100%
-- `components/profile/ConnectedAccounts.tsx` — LinkedIn connect/disconnect row with inline SVG icon
-- `components/profile/ResumeSection.tsx` — drag-drop zone, file select, upload to server action, extract/generate resume buttons
-- `components/profile/ProfileForm.tsx` — full 5-section form (Personal Info, Professional Info, Work Experience, Education, Job Preferences), tag inputs, `forwardRef` + `useImperativeHandle` exposing `applyExtracted()`
-- `components/profile/ProfilePageClient.tsx` — client wrapper wiring `ResumeSection.onExtracted` → `ProfileForm.applyExtracted`
-- `app/profile/page.tsx` — server component: fetches profile from DB via InsForge SDK, calculates completion, renders all real components
+**Bug fixes across profile page and server actions:**
 
-**Feature 06 — Save Logic:**
-- `lib/profile-utils.ts` — `calculateCompletion()` pure function: checks 9 required fields matching `MissingField` type
-- `actions/profile.ts` — `saveProfile()` server action: updates DB, fires `profile_completed` PostHog event on first completion; `uploadResume()` server action: uploads to InsForge Storage, saves URL to profile
-
-**Infrastructure updates:**
-- Installed `lucide-react`
-- Updated `context/ui-registry.md` entries for all 5 profile components with correct patterns
+- `components/profile/ResumeSection.tsx` — "View current resume" and "Generate Resume from Profile" now use blob URLs instead of raw data URLs or storage URLs. Both call Server Action → receive `data:application/pdf;base64,...` → `fetch(dataUrl)` → `URL.createObjectURL(blob)` → `window.open(blobUrl, "_blank")`. Fixes browser PDF rendering and auth-requiring storage URLs.
+- `actions/profile.tsx` — added `parseLlmJson()` helper that strips markdown code fences (```` ```json ````) before `JSON.parse`; used by both `extractResume()` and `generateResume()`. Fixed `isComplete` not written to DB (`raw.is_complete = isComplete`). Changed `generateResume()` to return data URL instead of raw storage URL. Changed `uploadResume()` to call `bucket.remove(filePath)` before uploading (prevents dedup copies). Added `path` import (was using `require("path")` which doesn't work in ESM).
+- `components/profile/ProfileForm.tsx` — added `?? ""` guards on all 8 `.split(" ")` calls for `role.startDate`/`role.endDate` to prevent crash when values are `null` from DB or resume extraction.
+- `context/ui-registry.md` — updated ResumeSection entry with current blob URL pattern and upload-overwrite behavior.
 
 ## Decisions made
 
-- `calculateCompletion()` checks 9 required fields: FULL_NAME, PHONE, LOCATION, CURRENT_TITLE, EXPERIENCE_LEVEL, YEARS_EXPERIENCE, SKILLS, WORK_EXPERIENCE, EDUCATION — matches `MissingField` type
-- `profile_completed` PostHog event fires only once (first time `is_complete` transitions false → true) — prevents repeated events on subsequent saves
-- `uploadResume()` uses `insforge.storage.from("resumes").upload(path, file)` — 2 args only (no `upsert`/`contentType` options); InsForge SDK accepts `File | Blob` directly
-- LinkedIn icon uses inline SVG — lucide-react does not export a `LinkedinIcon` in current installed version
-- Save button is `inline-flex` in a flex row with error/success messages — not full-width (deviates from earlier registry pattern)
-- "use client" boundary: ProfileForm, ResumeSection, ConnectedAccounts, ProfilePageClient are client components
-- `calculateCompletion()` is a pure function — imported by both client (ProfileForm) and server (page.tsx), no "use server" needed
+- PDF view: Server Action → data URL → client-side blob conversion via `fetch()` + `URL.createObjectURL()`. Avoids both InsForge Storage auth headers (which raw storage URLs require) and browser data URL size limits in new tabs.
+- LLM JSON parsing: always strip markdown fences via shared `parseLlmJson()` helper before `JSON.parse`.
+- Resume re-upload: always `bucket.remove()` before uploading to same path, matching the pattern `generateResume()` already uses.
 
 ## Problems solved
 
-- InsForge Storage `upload()` only accepts `(path, file)` — no options object. Removed `Buffer` conversion and `contentType`/`upsert` options that existed in a first draft.
-- `LinkedinIcon` does not exist in lucide-react — replaced with hand-written inline SVG path
-- TypeScript `z.infer` needed `z.array(...)` not spread for union type — fixed tag field schema
+- `window.open(dataUrl, "_blank")` with `data:application/pdf;base64,...` doesn't render PDFs in most browsers — converted to blob URLs via `fetch()` + `URL.createObjectURL()`.
+- `generateResume()` returned raw InsForge Storage URL that requires auth headers — invisible in Server Action result but fails when opened in new tab.
+- GPT-4o wraps JSON in markdown code fences (```` ```json … ``` ````) — `JSON.parse` throws `SyntaxError: Unexpected token '`'`.
+- `role.startDate`/`role.endDate` can be `null` from DB NULL columns or resume extraction — `.split(" ")` crashes with `Cannot read properties of null (reading 'split')`.
+- Re-uploading a PDF to same path created dedup copies (`resume(1).pdf`) — old file persisted, extract/download always got stale data.
 
 ## Current state
 
-- Profile page renders all 5 real components with correct styling
-- `saveProfile()` saves to DB and fires PostHog events
-- `uploadResume()` uploads files and saves URL to profile
-- Build passes with zero TypeScript errors
-- `ui-registry.md` updated with profile component patterns
+- Profile page fully functional: save, upload resume, view resume, extract from resume, generate resume — all paths tested and working.
+- PDF view and generate both open correctly in new tabs via blob URLs.
+- Re-upload correctly overwrites old file — no more stale data.
+- Null dates handled gracefully — form doesn't crash.
+- LLM responses with markdown fences parse correctly.
+- `is_complete` saved to DB — PostHog `profile_completed` event fires on first completion.
+- Build passes cleanly.
 
 ## Next session starts with
 
-Wire the Analytics Charts (`AnalyticsCharts.tsx`) to real PostHog event data using `createPosthogServer()`. Then replace demo components with real event firing as each feature is implemented.
+Feature 17: Analytics Charts — wire `AnalyticsCharts.tsx` components to real PostHog event data using `createPosthogServer()`.
 
 ## Open questions
 

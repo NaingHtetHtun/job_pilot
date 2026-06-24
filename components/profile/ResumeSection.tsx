@@ -2,7 +2,7 @@
 
 import { UploadIcon } from "lucide-react"
 import { useRef, useState, useTransition } from "react"
-import { uploadResume } from "@/actions/profile"
+import { uploadResume, extractResume, generateResume, downloadResume } from "@/actions/profile"
 
 type Props = {
   existingResumeUrl?: string | null
@@ -21,6 +21,7 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
   const [isGenerating, startGenerating] = useTransition()
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [generateSuccess, setGenerateSuccess] = useState(false)
+  const [downloadError, setDownloadError] = useState<string | null>(null)
 
   function handleDragOver(e: React.DragEvent) {
     e.preventDefault()
@@ -71,17 +72,10 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
   }
 
   function handleExtract() {
-    if (!existingResumeUrl) return
     startExtracting(async () => {
       setExtractError(null)
       try {
-        const res = await fetch("/api/resume/extract", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({}),
-        })
-        const { data, error } = await res.json()
-        if (error) throw new Error(error)
+        const data = await extractResume()
         onExtracted?.(data)
       } catch (err) {
         setExtractError(err instanceof Error ? err.message : "Extraction failed")
@@ -94,14 +88,11 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
       setGenerateError(null)
       setGenerateSuccess(false)
       try {
-        const res = await fetch("/api/resume/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({}),
-        })
-        const { error, url } = await res.json()
-        if (error) throw new Error(error)
-        window.open(url, "_blank")
+        const dataUrl = await generateResume()
+        const res = await fetch(dataUrl)
+        const blob = await res.blob()
+        const blobUrl = URL.createObjectURL(blob)
+        window.open(blobUrl, "_blank")
         setGenerateSuccess(true)
       } catch (err) {
         setGenerateError(err instanceof Error ? err.message : "Generation failed")
@@ -162,6 +153,34 @@ export function ResumeSection({ existingResumeUrl, onExtracted }: Props) {
 
       {uploadSuccess && (
         <p className="mt-2 text-xs text-success">Resume uploaded successfully</p>
+      )}
+
+      {existingResumeUrl && (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => {
+              startUploading(async () => {
+                setDownloadError(null)
+                try {
+                  const dataUrl = await downloadResume()
+                  const res = await fetch(dataUrl)
+                  const blob = await res.blob()
+                  const blobUrl = URL.createObjectURL(blob)
+                  window.open(blobUrl, "_blank")
+                } catch {
+                  setDownloadError("Failed to open resume")
+                }
+              })
+            }}
+            className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-hover underline underline-offset-2 cursor-pointer"
+          >
+            {isUploading ? "Opening..." : "View current resume"}
+          </button>
+          {downloadError && (
+            <p className="mt-1 text-xs text-error">{downloadError}</p>
+          )}
+        </div>
       )}
 
       <div className="mt-4 flex flex-col gap-3">
