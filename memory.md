@@ -1,43 +1,38 @@
-# Memory — Profile Page Bug Fixes (Post-Build Session)
+# Memory — Tailwind v4 Canonical Class Enforcement
 
 Last updated: 2026-06-24
 
 ## What was built
 
-**Bug fixes across profile page and server actions:**
+**Tailwind v4 canonical class name enforcement:**
 
-- `components/profile/ResumeSection.tsx` — "View current resume" and "Generate Resume from Profile" now use blob URLs instead of raw data URLs or storage URLs. Both call Server Action → receive `data:application/pdf;base64,...` → `fetch(dataUrl)` → `URL.createObjectURL(blob)` → `window.open(blobUrl, "_blank")`. Fixes browser PDF rendering and auth-requiring storage URLs.
-- `actions/profile.tsx` — added `parseLlmJson()` helper that strips markdown code fences (```` ```json ````) before `JSON.parse`; used by both `extractResume()` and `generateResume()`. Fixed `isComplete` not written to DB (`raw.is_complete = isComplete`). Changed `generateResume()` to return data URL instead of raw storage URL. Changed `uploadResume()` to call `bucket.remove(filePath)` before uploading (prevents dedup copies). Added `path` import (was using `require("path")` which doesn't work in ESM).
-- `components/profile/ProfileForm.tsx` — added `?? ""` guards on all 8 `.split(" ")` calls for `role.startDate`/`role.endDate` to prevent crash when values are `null` from DB or resume extraction.
-- `context/ui-registry.md` — updated ResumeSection entry with current blob URL pattern and upload-overwrite behavior.
+- `components/profile/ConnectedAccounts.tsx` — `flex-shrink-0` → `shrink-0` (line 27)
+- `components/profile/ProfileAttentionBanner.tsx` — `flex-shrink-0` → `shrink-0` (line 33)
+- `eslint.config.mjs` — installed and configured `eslint-plugin-tailwindcss` v4.0.3 with `cssConfigPath: "./app/globals.css"`. Rules enabled: `classnames-order` (warn), `enforces-shorthand` (warn), `no-custom-classname` (warn with whitelist for `landing-*`, `hover:text-accent-hover`, `**:not-[]:border-x`), `enforces-negative-arbitrary-values` (warn), `no-unnecessary-arbitrary-value` (warn), `no-contradicting-classname` (error). Ran `--fix` — 67 class order warnings auto-corrected.
+- `AGENTS.md` — added rule: "Always use canonical Tailwind v4 class names — e.g. `shrink-0` not `flex-shrink-0`, `grow` not `flex-grow`, `size-4` not `h-4 w-4`. The ESLint config enforces this."
 
 ## Decisions made
 
-- PDF view: Server Action → data URL → client-side blob conversion via `fetch()` + `URL.createObjectURL()`. Avoids both InsForge Storage auth headers (which raw storage URLs require) and browser data URL size limits in new tabs.
-- LLM JSON parsing: always strip markdown fences via shared `parseLlmJson()` helper before `JSON.parse`.
-- Resume re-upload: always `bucket.remove()` before uploading to same path, matching the pattern `generateResume()` already uses.
+- ESLint config uses recommended preset from `eslint-plugin-tailwindcss` (v4) with explicit `cssConfigPath` pointing to `app/globals.css` (Tailwind v4 CSS-first config).
+- Custom classes (`landing-*`, `hover:text-accent-hover`, `**:not-[]:border-x`) whitelisted in `no-custom-classname` rule to avoid false positives.
+- `landing-.*` regex pattern used (not `landing-*`) to match the plugin's regex-based whitelist engine.
 
 ## Problems solved
 
-- `window.open(dataUrl, "_blank")` with `data:application/pdf;base64,...` doesn't render PDFs in most browsers — converted to blob URLs via `fetch()` + `URL.createObjectURL()`.
-- `generateResume()` returned raw InsForge Storage URL that requires auth headers — invisible in Server Action result but fails when opened in new tab.
-- GPT-4o wraps JSON in markdown code fences (```` ```json … ``` ````) — `JSON.parse` throws `SyntaxError: Unexpected token '`'`.
-- `role.startDate`/`role.endDate` can be `null` from DB NULL columns or resume extraction — `.split(" ")` crashes with `Cannot read properties of null (reading 'split')`.
-- Re-uploading a PDF to same path created dedup copies (`resume(1).pdf`) — old file persisted, extract/download always got stale data.
+- `flex-shrink-0` is a Tailwind v3 class name — Tailwind v4 uses `shrink-0`. Two occurrences in the codebase fixed.
+- No ESLint rule was catching deprecated v3 class names — now the `no-custom-classname` rule treats them as unknown classes and warns.
+- 67 class ordering inconsistencies across the codebase auto-fixed via `--fix`.
 
 ## Current state
 
-- Profile page fully functional: save, upload resume, view resume, extract from resume, generate resume — all paths tested and working.
-- PDF view and generate both open correctly in new tabs via blob URLs.
-- Re-upload correctly overwrites old file — no more stale data.
-- Null dates handled gracefully — form doesn't crash.
-- LLM responses with markdown fences parse correctly.
-- `is_complete` saved to DB — PostHog `profile_completed` event fires on first completion.
+- Lint passes with 0 warnings, 0 errors.
 - Build passes cleanly.
+- Any future use of deprecated Tailwind v3 class names (like `flex-shrink-0`, `flex-grow`) or non-shorthand patterns (like `h-4 w-4` instead of `size-4`) will be flagged by ESLint.
+- AGENTS.md documents the canonical class name rule.
 
 ## Next session starts with
 
-Feature 17: Analytics Charts — wire `AnalyticsCharts.tsx` components to real PostHog event data using `createPosthogServer()`.
+Feature 17: Analytics Charts — wire `AnalyticsCharts.tsx` to real PostHog event data using `createPosthogServer()`.
 
 ## Open questions
 
